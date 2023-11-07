@@ -6,7 +6,7 @@ from .serializers import CompanySerializer
 
 
 @api_view(['GET', 'POST'])
-def company_list(request):
+def list_or_create_companies(request):
     if request.method == 'GET':
         companies = Company.objects.all()
         serializer = CompanySerializer(companies, many=True)
@@ -21,7 +21,7 @@ def company_list(request):
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
-def company_detail(request, pk):
+def get_update_or_delete_company(request, pk):
     try:
         company = Company.objects.get(pk=pk)
     except Company.DoesNotExist:
