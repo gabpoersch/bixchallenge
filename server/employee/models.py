@@ -19,4 +19,4 @@ class Vacation(models.Model):
     end_date = models.DateField()
 
     def __str__(self):
-        return f"{self.employee.name} - {self.start_date} to {self.end_date}"
+        return f"{self.employee.name} ({self.employee.cpf}) - {self.start_date} to {self.end_date}"
