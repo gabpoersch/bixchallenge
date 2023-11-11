@@ -22,6 +22,15 @@ const CompanyPage = () => {
     setDraftCompany({ ...company });
   };
 
+  const deleteCompany = async (id) => {
+    const response = await fetch(`http://127.0.0.1:8000/company/${id}/`, {
+      method: 'DELETE',
+    });
+    if (response.ok) {
+      fetchCompanies(); // Refresh the list after deletion
+    }
+  };
+
   const cancelEdit = () => {
     setEditCompanyId(null);
     setCreatingCompany(false);
@@ -129,14 +138,24 @@ const CompanyPage = () => {
                 )}
               </td>
               <td>
-                {editCompanyId === company.id ? (
-                  <>
-                    <button onClick={handleSave}>Save</button>
-                    <button onClick={cancelEdit}>Cancel</button>
-                  </>
-                ) : (
-                  <button onClick={() => editCompany(company)}>Edit</button>
-                )}
+                <div className="action-buttons">
+                  {editCompanyId === company.id ? (
+                    <>
+                      <button onClick={handleSave}>Save</button>
+                      <button onClick={cancelEdit}>Cancel</button>
+                    </>
+                  ) : (
+                    <>
+                      <button onClick={() => editCompany(company)}>Edit</button>
+                      <button 
+                        className="table-button delete"
+                        onClick={() => deleteCompany(company.id)}
+                      >
+                        Delete
+                      </button>
+                    </>
+                  )}
+                </div>
               </td>
             </tr>
           ))}

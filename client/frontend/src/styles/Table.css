@@ -39,3 +39,23 @@ th {
   color: rgb(0, 0, 0);
   text-transform: uppercase;
 }
+
+.action-buttons {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.table-button {
+  margin-left: 5px;
+}
+
+.table-button.delete {
+  background-color: red;
+  color: white;
+}
+
+.table-button.timeline {
+  background-color: lightgray;
+  color: black;
+}

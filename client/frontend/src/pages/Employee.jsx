@@ -30,6 +30,15 @@ const EmployeePage = () => {
     setDraftEmployee({ ...employee });
   };
 
+  const deleteEmployee = async (id) => {
+    const response = await fetch(`http://127.0.0.1:8000/employee/${id}/`, {
+      method: 'DELETE',
+    });
+    if (response.ok) {
+      fetchEmployees();
+    }
+  };
+
   const cancelEdit = () => {
     setEditEmployeeId(null);
     setCreatingEmployee(false);
@@ -161,7 +170,18 @@ const EmployeePage = () => {
                   ) : (
                     <>
                       <button onClick={() => editEmployee(employee)}>Edit</button>
-                      <button onClick={() => window.location.href = `timeline/${employee.id}`}>Timeline</button>
+                      <button 
+                        className="table-button timeline"
+                        onClick={() => window.location.href = `timeline/${employee.id}`}
+                      >
+                        Timeline
+                      </button>
+                      <button 
+                        className="table-button delete"
+                        onClick={() => deleteEmployee(employee.id)}
+                      >
+                        Delete
+                      </button>
                     </>
                   )}
                 </div>
