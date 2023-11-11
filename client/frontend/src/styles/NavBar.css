@@ -1,0 +1,63 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #23395B;
+  color: white;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.logo {
+  position: absolute;
+  left: 20px;
+  top: 0;
+  padding: 10px 0;
+}
+
+.nav-items {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  position: relative; 
+  padding: 0;
+  margin: 0;
+  flex-grow: 1; 
+  justify-content: center; 
+}
+
+.nav-items a {
+  color: white;
+  text-decoration: none;
+  padding: 10px 15px;
+}
+
+.nav-items a:hover {
+  border-bottom: 2px solid #3498db;
+}
+
+.logout-button {
+  position: absolute;
+  right: 10px;
+  top: 3px;
+  padding: 10px 20px;
+  background-color: #3498db;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+}
+
+.contact-button:hover {
+  background-color: #2980b9;
+}

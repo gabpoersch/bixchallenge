@@ -1,0 +1,40 @@
+.main-timeline-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 20px;
+  flex-wrap: wrap;
+}
+
+.timeline-entry-container {
+  background-color: #59C9A5;
+  border-radius: 10px;
+  border: 2px solid #7E2C5B;
+  box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.timeline-entry {
+  text-align: left;
+  position: relative;
+  color: rgb(0, 0, 0);
+}
+
+.timeline-entry h2 {
+  background-color: #D81E5B;
+  color: rgb(0, 0, 0);
+  text-transform: uppercase;
+  padding: 12px 15px;
+  border-radius: 8px 8px 0 0;
+  margin: -20px -20px 20px;
+}
+
+.timeline-entry p {
+  padding: 0;
+  margin: 8px 0;
+  position: relative;
+  line-height: 1.5;
+}
