@@ -2,7 +2,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import Employee, Vacation
-from .serializers import EmployeeSerializer, VacationSerializer
+from .serializers import EmployeeSerializer, VacationSerializer, EmployeeTimelineSerializer
 
 
 @api_view(['GET', 'POST'])
@@ -81,3 +81,21 @@ def get_employee_vacations(request, pk):
         vacations = Vacation.objects.filter(employee_id=pk)
         serializer = VacationSerializer(vacations, many=True)
         return Response(serializer.data)
+
+
+@api_view(['GET'])
+def list_timeline(request):
+    employees = Employee.objects.all().prefetch_related('vacations')
+    serializer = EmployeeTimelineSerializer(employees, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def get_employee_timeline(request, employee_id):
+    try:
+        employee = Employee.objects.prefetch_related('vacations').get(pk=employee_id)
+    except Employee.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    serializer = EmployeeTimelineSerializer(employee)
+    return Response(serializer.data)

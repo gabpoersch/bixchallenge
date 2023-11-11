@@ -8,4 +8,6 @@ urlpatterns = [
     path('employee/', include('employee.urls')),
     path('vacations/', views.list_or_create_vacations, name='vacation-list'),
     path('vacations/<int:pk>', views.get_update_or_delete_vacation_by_id, name='vacation-detail'),
+    path('timeline/', views.list_timeline, name='employee-timeline'),
+    path('timeline/<int:employee_id>/', views.get_employee_timeline, name='employee_detail_timeline'),
 ]

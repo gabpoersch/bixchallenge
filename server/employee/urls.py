@@ -6,4 +6,5 @@ urlpatterns = [
     path('<int:pk>/', views.get_update_or_delete_employee, name='employee-detail'),
 
     path('<int:pk>/vacations/', views.get_employee_vacations, name='employee-vacations'),
+
 ]
