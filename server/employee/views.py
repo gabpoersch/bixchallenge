@@ -1,13 +1,22 @@
-from rest_framework import status
+from rest_framework import permissions, status
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
-from rest_framework.decorators import api_view, parser_classes
+from rest_framework.decorators import api_view, parser_classes, permission_classes
 from rest_framework.response import Response
 from .models import Employee, Vacation
 from .serializers import EmployeeSerializer, VacationSerializer, EmployeeTimelineSerializer
 
 
+class IsAdminUserOrReadOnly(permissions.BasePermission):
+    def has_permission(self, request, view):
+        if request.method in permissions.SAFE_METHODS:
+            return request.user.is_authenticated
+        else:
+            return request.user.is_authenticated and request.user.groups.filter(name='admin').exists()
+
+
 @api_view(['GET', 'POST'])
 @parser_classes((MultiPartParser, FormParser, JSONParser))
+@permission_classes([IsAdminUserOrReadOnly])
 def list_or_create_employees(request):
     if request.method == 'GET':
         employees = Employee.objects.all()
@@ -23,12 +32,12 @@ def list_or_create_employees(request):
 
 @api_view(['GET', 'PUT', 'DELETE'])
 @parser_classes((MultiPartParser, FormParser, JSONParser))
+@permission_classes([IsAdminUserOrReadOnly])
 def get_update_or_delete_employee(request, pk):
     try:
         employee = Employee.objects.get(pk=pk)
     except Employee.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-
     if request.method == 'GET':
         serializer = EmployeeSerializer(employee)
         return Response(serializer.data)
@@ -44,6 +53,7 @@ def get_update_or_delete_employee(request, pk):
 
 
 @api_view(['GET', 'POST'])
+@permission_classes([IsAdminUserOrReadOnly])
 def list_or_create_vacations(request):
     if request.method == 'GET':
         vacations = Vacation.objects.all()
@@ -58,12 +68,12 @@ def list_or_create_vacations(request):
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
+@permission_classes([IsAdminUserOrReadOnly])
 def get_update_or_delete_vacation_by_id(request, pk):
     try:
         vacation = Vacation.objects.get(pk=pk)
     except Vacation.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-
     if request.method == 'GET':
         serializer = VacationSerializer(vacation)
         return Response(serializer.data)
@@ -79,6 +89,7 @@ def get_update_or_delete_vacation_by_id(request, pk):
 
 
 @api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
 def get_employee_vacations(request, pk):
     if request.method == 'GET':
         vacations = Vacation.objects.filter(employee_id=pk)
@@ -87,6 +98,7 @@ def get_employee_vacations(request, pk):
 
 
 @api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
 def list_timeline(request):
     employees = Employee.objects.all().prefetch_related('vacations')
     serializer = EmployeeTimelineSerializer(employees, many=True)
@@ -94,11 +106,11 @@ def list_timeline(request):
 
 
 @api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
 def get_employee_timeline(request, employee_id):
     try:
         employee = Employee.objects.prefetch_related('vacations').get(pk=employee_id)
     except Employee.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-
     serializer = EmployeeTimelineSerializer(employee)
     return Response(serializer.data)
