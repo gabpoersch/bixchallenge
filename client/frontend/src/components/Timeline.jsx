@@ -4,6 +4,8 @@ import '../styles/Timeline.css';
 const Timeline = ({ employeeId }) => {
   const [timelines, setTimelines] = useState([]);
 
+  const access = localStorage.getItem('access')
+
   useEffect(() => {
     const fetchTimelines = async () => {
       let url = 'http://127.0.0.1:8000/timeline/';
@@ -11,7 +13,12 @@ const Timeline = ({ employeeId }) => {
         url += `${employeeId}/`;
       }
 
-      const response = await fetch(url);
+      const response = await fetch(url, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${access}`
+        }
+      });
       const data = await response.json();
       setTimelines(Array.isArray(data) ? data : [data]);
     };

@@ -1,7 +1,19 @@
 import React from 'react';
 import '../styles/NavBar.css';
+import { useNavigate } from 'react-router-dom';
 
 const NavBar = () => {
+
+  const navigate = useNavigate();
+
+  function logout() {
+    localStorage.removeItem('access'); 
+    localStorage.removeItem('refresh'); 
+
+    navigate('/login');
+
+  }
+
   return (
     <nav className="navbar">
       <div className="logo">BIX CHALLENGE</div>
@@ -10,7 +22,7 @@ const NavBar = () => {
         <a href="/employee">Employees</a>
         <a href="/timeline">Timeline</a>
       </div>
-      <button className="logout-button">Logout</button>
+      <button onClick={logout} className="logout-button">Logout</button>
     </nav>
   );
 };

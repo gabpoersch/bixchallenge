@@ -7,12 +7,19 @@ const CompanyPage = () => {
   const [draftCompany, setDraftCompany] = useState({});
   const [creatingCompany, setCreatingCompany] = useState(false);
 
+  const access = localStorage.getItem('access')
+
   useEffect(() => {
     fetchCompanies();
   }, []);
 
   const fetchCompanies = async () => {
-    const response = await fetch('http://127.0.0.1:8000/company/');
+    const response = await fetch('http://127.0.0.1:8000/company/', {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${access}`
+      }
+    })
     const data = await response.json();
     setCompanies(data);
   };
@@ -25,9 +32,13 @@ const CompanyPage = () => {
   const deleteCompany = async (id) => {
     const response = await fetch(`http://127.0.0.1:8000/company/${id}/`, {
       method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${access}`
+      },
     });
     if (response.ok) {
-      fetchCompanies(); // Refresh the list after deletion
+      fetchCompanies();
     }
   };
 
@@ -41,6 +52,7 @@ const CompanyPage = () => {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${access}`
       },
       body: JSON.stringify(draftCompany),
     });
@@ -60,10 +72,12 @@ const CompanyPage = () => {
   };
 
   const saveNewCompany = async () => {
+
     const response = await fetch('http://127.0.0.1:8000/company/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${access}`
       },
       body: JSON.stringify(draftCompany),
     });
@@ -147,7 +161,7 @@ const CompanyPage = () => {
                   ) : (
                     <>
                       <button onClick={() => editCompany(company)}>Edit</button>
-                      <button 
+                      <button
                         className="table-button delete"
                         onClick={() => deleteCompany(company.id)}
                       >
