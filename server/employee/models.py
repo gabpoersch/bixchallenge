@@ -1,5 +1,6 @@
 from django.db import models
 from company.models import Company
+from django.utils.translation import gettext_lazy as _
 
 
 class Employee(models.Model):
@@ -8,6 +9,8 @@ class Employee(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     start_date = models.DateField()
     end_date = models.DateField(null=True, blank=True)
+    photo = models.ImageField(_("Photo"), upload_to='employee_photos/', null=True,
+                              blank=True)
 
     def __str__(self):
         return self.name
