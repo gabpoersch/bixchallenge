@@ -79,3 +79,5 @@ Now you can access the application in the browser:
 
 - **Frontend:** http://localhost:5173/
 - **Backend:** http://127.0.0.1:8000/admin
+
+OBS: I also uploaded a Postman collection to the repository, in case you find it useful.
