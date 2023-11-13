@@ -21,9 +21,11 @@ const Login = () => {
       localStorage.setItem('refresh', response.data.refresh);
       navigate('/');
     } catch (error) {
+      alert("Invalid username/password! Try again.");
       console.error('Erro de login', error);
     }
   };
+  
 
   return (
     <div>
